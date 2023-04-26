@@ -27,9 +27,9 @@ def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        if username == 'admin' and password == 'admin':
+        if username == 'admin' and password == 'czzxczxcxzasfdafa':
             return render_template('admin.html')
-        elif username == 'empleado' and password == 'empleado':
+        elif username == 'empleado' and password == 'czzxczxcxzasfdafa':
             return render_template('empleado.html')
         else:
             error = 'Credenciales inválidas. Intente de nuevo.'
