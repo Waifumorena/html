@@ -14,6 +14,9 @@ c = conn.cursor()
 c.execute('''CREATE TABLE IF NOT EXISTS mensajes
              (mensaje text)''')
 
+# Crear un Lock para proteger el acceso a la base de datos SQLite
+lock = threading.Lock()
+
 @app.route('/')
 def home():
     return render_template('index.html')
@@ -52,8 +55,9 @@ async def manejar_cliente(websocket, path):
             await cliente.send(mensaje)
 
         # Guardar el mensaje en la base de datos SQLite
-        c.execute("INSERT INTO mensajes (mensaje) VALUES (?)", (mensaje,))
-        conn.commit()
+        with lock:
+            c.execute("INSERT INTO mensajes (mensaje) VALUES (?)", (mensaje,))
+            conn.commit()
 
     # Eliminar el cliente de la lista de clientes
     clientes.remove(websocket)
@@ -82,6 +86,7 @@ if __name__ == '__main__':
 
     # Cerrar la conexión a la base de datos SQLite
     conn.close()
+
 
 
 
