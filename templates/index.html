@@ -1,1 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Página de inicio</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
+
+</head>
+<body>
+    <h1>Bienvenido a mi página</h1>
+    <button onclick="location.href='/login'">Admins</button>
+    <button onclick="location.href='/login'">Empleados</button><br><br><br>
+    <br>
+    <br>
+    <p>Notas</p>
+    <div id="chat">
+        <div id="mensajes"></div>
+        <form id="formulario">
+          <input type="text" id="mensaje" placeholder="Escribe un mensaje...">
+          <button type="submit">Enviar</button>
+        </form>
+      </div>
+      <script src="/static/app.js"></script>
+</body>
+</html>
 
