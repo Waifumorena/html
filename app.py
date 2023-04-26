@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import threading
 import asyncio
 import websockets
@@ -77,6 +78,7 @@ if __name__ == '__main__':
 
     hilo_flask.join()
     hilo_websockets.join()
+
 
 
 
