@@ -42,15 +42,15 @@ PORT = 5001
 # Lista de clientes conectados al servidor
 clientes = set()
 
-async def manejar_cliente(websocket, path):
+def manejar_cliente(websocket, path):
     # Agregar el cliente a la lista de clientes
     clientes.add(websocket)
 
     # Manejar los mensajes del cliente
-    async for mensaje in websocket:
+    for mensaje in websocket:
         # Enviar el mensaje a todos los clientes conectados
         for cliente in clientes:
-            await cliente.send(mensaje)
+            cliente.send(mensaje)
 
         # Guardar el mensaje en la base de datos MySQL
         cursor = mydb.cursor()
