@@ -64,20 +64,25 @@ async def iniciar_servidor():
         print(f"Servidor escuchando en {HOST}:{PORT}...")
         await asyncio.Future()  # Mantener el servidor en funcionamiento indefinidamente
 
-# Iniciar el servidor Flask y el servidor WebSocket en hilos separados
 if __name__ == '__main__':
-    hilo_flask = threading.Thread(target=app.run(host='149.56.67.133', port=5001))
-    hilo_websockets = threading.Thread(target=asyncio.run, args=(iniciar_servidor(),))
+    # Obtener el bucle de eventos de asyncio actual
+    loop = asyncio.get_event_loop()
 
+    # Crear tareas para el servidor Flask y el servidor WebSocket
+    tarea_flask = threading.Thread(target=app.run, kwargs={'host': '149.56.67.133', 'port': 5000})
+    tarea_websockets = threading.Thread(target=loop.run_until_complete, args=(iniciar_servidor(),))
 
-    hilo_flask.start()
-    hilo_websockets.start()
+    # Iniciar las tareas en hilos separados
+    tarea_flask.start()
+    tarea_websockets.start()
 
-    hilo_flask.join()
-    hilo_websockets.join()
+    # Esperar a que las tareas finalicen
+    tarea_flask.join()
+    tarea_websockets.join()
 
     # Cerrar la conexión a la base de datos SQLite
     conn.close()
+
 
 
 
