@@ -67,7 +67,8 @@ async def iniciar_servidor():
 # Iniciar el servidor Flask y el servidor WebSocket en hilos separados
 if __name__ == '__main__':
     hilo_flask = threading.Thread(target=app.run(host='149.56.67.133', port=5001))
-    hilo_websockets = threading.Thread(target=asyncio.run, args=(iniciar_servidor()))
+    hilo_websockets = threading.Thread(target=asyncio.run, args=(iniciar_servidor(),))
+
 
     hilo_flask.start()
     hilo_websockets.start()
