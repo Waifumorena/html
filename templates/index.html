@@ -20,22 +20,34 @@
           <button type="submit">Enviar</button>
         </form>
       </div>
-      <script>// Conectarse al servidor utilizando WebSocket
-var socket = new WebSocket('ws://149.56.67.133:5001/');
+      <script>
+          
+          // Conectarse al servidor utilizando WebSocket
+const socket = new WebSocket('ws://149.56.67.133:5001/');
+
+// Obtener los elementos necesarios del DOM
+const formulario = document.querySelector('#formulario');
+const mensajeInput = document.querySelector('#mensaje');
+const mensajesDiv = document.querySelector('#mensajes');
 
 // Manejar la recepción de mensajes del servidor
-socket.onmessage = function(event) {
-  var mensaje = event.data;
-  $('#mensajes').append('<div>' + mensaje + '</div>');
-}
+socket.addEventListener('message', (event) => {
+  const mensaje = event.data;
+  const mensajeDiv = document.createElement('div');
+  mensajeDiv.textContent = mensaje;
+  mensajesDiv.appendChild(mensajeDiv);
+});
 
 // Manejar el envío de mensajes desde el formulario de entrada
-$('#formulario').submit(function(event) {
+formulario.addEventListener('submit', (event) => {
   event.preventDefault();
-  var mensaje = $('#mensaje').val();
+  const mensaje = mensajeInput.value;
   socket.send(mensaje);
-  $('#mensaje').val('');
-});</script>
+  mensajeInput.value = '';
+});
+
+    
+    </script>
 </body>
 </html>
 
