@@ -34,7 +34,7 @@ def login():
 
 
 # Dirección IP del servidor
-HOST = '127.0.0.1'
+HOST = '149.56.67.133'
 # Puerto en el que se ejecutará el servidor
 PORT = 5001
 
