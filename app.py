@@ -29,7 +29,7 @@ def login():
         elif username == 'empleado' and password == 'empleado':
             return render_template('empleado.html')
         else:
-            error = 'Credenciales inválidas. Intente de nuevo.'
+            error = "Credenciales inválidas. Intente de nuevo."
     return render_template('login.html', error=error)
 
 
