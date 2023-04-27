@@ -37,7 +37,7 @@ def login():
 
 
 # Dirección IP del servidor
-HOST = '149.56.67.133'
+HOST = 'localhost'
 # Puerto en el que se ejecutará el servidor
 PORT = 5001
 
@@ -73,7 +73,7 @@ if __name__ == '__main__':
     loop = asyncio.get_event_loop()
 
     # Crear tareas para el servidor Flask y el servidor WebSocket
-    tarea_flask = threading.Thread(target=app.run, kwargs={'host': '149.56.67.133', 'port': 5000})
+    tarea_flask = threading.Thread(target=app.run, kwargs={'host': 'localhost', 'port': 5000})
     tarea_websockets = threading.Thread(target=loop.run_until_complete, args=(iniciar_servidor(),))
 
     # Iniciar las tareas en hilos separados
