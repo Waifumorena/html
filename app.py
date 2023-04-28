@@ -36,53 +36,17 @@ def login():
     return render_template('login.html', error=error)
 
 
-# Dirección IP del servidor
-HOST = 'localhost'
-# Puerto en el que se ejecutará el servidor
-PORT = 5001
-
-# Lista de clientes conectados al servidor
-clientes = set()
-
-async def manejar_cliente(websocket, path):
-    # Agregar el cliente a la lista de clientes
-    clientes.add(websocket)
-
-    # Manejar los mensajes del cliente
-    async for mensaje in websocket:
-        # Enviar el mensaje a todos los clientes conectados
-        for cliente in clientes:
-            await cliente.send(mensaje)
-
-        # Guardar el mensaje en la base de datos SQLite
-        with lock:
-            c.execute("INSERT INTO mensajes (mensaje) VALUES (?)", (mensaje,))
-            conn.commit()
-
-    # Eliminar el cliente de la lista de clientes
-    clientes.remove(websocket)
-
-# Iniciar el servidor WebSocket
-async def iniciar_servidor():
-    async with websockets.serve(manejar_cliente, HOST, PORT):
-        print(f"Servidor escuchando en {HOST}:{PORT}...")
-        await asyncio.Future()  # Mantener el servidor en funcionamiento indefinidamente
 
 if __name__ == '__main__':
-    # Obtener el bucle de eventos de asyncio actual
-    loop = asyncio.get_event_loop()
 
     # Crear tareas para el servidor Flask y el servidor WebSocket
     tarea_flask = threading.Thread(target=app.run, kwargs={'host': 'localhost', 'port': 5000})
-    tarea_websockets = threading.Thread(target=loop.run_until_complete, args=(iniciar_servidor(),))
 
     # Iniciar las tareas en hilos separados
     tarea_flask.start()
-    tarea_websockets.start()
 
     # Esperar a que las tareas finalicen
     tarea_flask.join()
-    tarea_websockets.join()
 
     # Cerrar la conexión a la base de datos SQLite
     conn.close()
